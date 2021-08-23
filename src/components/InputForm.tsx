@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 
 // get today's date
-var defaultDate = new Date();
+var defaultDate = new Date(0);
 
 interface InputFormProps {
   handleTodoItemAdd: (title: string, dueDate: Date, tagList: string[]) => void;
@@ -10,7 +10,7 @@ interface InputFormProps {
 const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
   const [ tags, setTags ] = useState<string[]>([]);
   const [ title, setTitle ] = useState<string>('');
-  const [ date, setDate ] = useState<Date | null>(defaultDate);
+  const [ date, setDate ] = useState<Date>(defaultDate);
   
   // input to add new tags
   const [inputTag, setInputTag] = useState('');
@@ -41,10 +41,9 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log('submit')
+    
     // validate inputs
-    if (!title || !date) {
-      console.log('invalid submit input', title, date)
+    if (!title || date === defaultDate) {
       return;
     }
 
@@ -78,8 +77,8 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
       <br />
 
       {/* taglist buttons from: https://react-bootstrap.github.io/components/buttons/ */}
-      {tags.map(tag => {
-        return <Button variant="primary">{tag}</Button>
+      {tags.map((tag, index) => {
+        return <Button key={index} variant="primary">{tag}</Button>
       })}
 
       <br />

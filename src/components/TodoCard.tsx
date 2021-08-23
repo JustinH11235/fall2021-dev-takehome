@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 // import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from 'react-bootstrap/Button';
 
 /* card design from: https://material-ui.com/components/cards/ */
 // checkboxes https://material-ui.com/components/lists/
@@ -58,7 +59,7 @@ const TodoCard: React.FC<TodoCardProps> = ({todo, handleCheck}) => {
             Due Date: {todo.dueDate.toLocaleDateString()}
           </Typography>
           <Typography variant="body2" component="p">
-            {todo.tagList.map((tag, index) => <span key={index}>{tag}</span>)}
+            {todo.tagList.map((tag, index) => <Button key={index} variant="primary">{tag}</Button>)}
           </Typography>
         </CardContent>
       </Card>
