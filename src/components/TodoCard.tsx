@@ -58,8 +58,7 @@ const TodoCard: React.FC<TodoCardProps> = ({todo, handleCheck}) => {
             Due Date: {todo.dueDate.toLocaleDateString()}
           </Typography>
           <Typography variant="body2" component="p">
-            Put tags here <br />
-            {todo.tagList.map(tag => tag)}
+            {todo.tagList.map((tag, index) => <span key={index}>{tag}</span>)}
           </Typography>
         </CardContent>
       </Card>

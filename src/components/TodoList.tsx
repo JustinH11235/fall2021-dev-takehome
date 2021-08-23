@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import TodoCard, { TodoItem } from './TodoCard'
+import InputForm from './InputForm'
 /**
  * Thank you for applying to Bits of Good. You are free to add/delete/modify any 
  * parts of this project. That includes changing the types.ts, creating css files, 
@@ -15,7 +16,7 @@ import TodoCard, { TodoItem } from './TodoCard'
  */
 
 export default function TodoList() {
-  const [ todos, setTodos ] = useState<TodoItem[]>([{
+  const [ todos, setTodos ] = useState<TodoItem[]>([{ // temporary initialization
     title: 'Testtitle',
     dueDate: new Date(),
     tagList: ['tag1', 'tag2'],
@@ -35,39 +36,17 @@ export default function TodoList() {
     setTodos(newTodos);
   };
 
+  const handleTodoItemAdd = (title: string, dueDate: Date, tagList: string[]) => {
+    setTodos(todos.concat([{ title, dueDate, tagList, completed: false }]));
+  }
+
   return (
     <div>
       <h3>Todo List!</h3>
 
-      <form>
-        <label htmlFor="titleInput">Title: </label>
-        <br />
-        <input id="titleInput" type="text" />
 
-        <br />
-        <br />
+      <InputForm handleTodoItemAdd={handleTodoItemAdd} />
 
-        <p>Tags: </p>
-        <label htmlFor="createTagInput">Create New Tag: </label>
-        <input id="createTagInput" type="text" />
-
-        <br />
-        List current tags here (this tag list will be part of state)
-
-        <br />
-        <br />
-
-        <label htmlFor="dueDateInput">Due Date: </label>
-        <br />
-        <input id="dueDateInput" type="date" />
-
-        <br />
-        <br />
-
-        <button onClick={() => console.log('clicked, change me')}>
-          Add
-        </button>
-      </form>
         
       {todos.map((todo, index) => <TodoCard todo={todo} handleCheck={() => handleCheck(index)} key={index} />)}
     </div>
