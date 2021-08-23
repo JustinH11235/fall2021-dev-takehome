@@ -12,6 +12,7 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
   const [ title, setTitle ] = useState<string>('');
   const [ date, setDate ] = useState<Date | null>(defaultDate);
   
+  // input to add new tags
   const [inputTag, setInputTag] = useState('');
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,14 +79,10 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
 
       {/* taglist buttons from: https://react-bootstrap.github.io/components/buttons/ */}
       {tags.map(tag => {
-        return (<Button variant="primary">{tag}</Button>)
+        return <Button variant="primary">{tag}</Button>
       })}
 
       <br />
-      {/* List current tags here (this tag list will be part of state)
-
-      <br />
-      <br /> */}
 
       <label htmlFor="dueDateInput">Due Date: </label>
       <br />

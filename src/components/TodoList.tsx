@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import TodoCard, { TodoItem } from './TodoCard'
 import InputForm from './InputForm'
+import Button from 'react-bootstrap/Button'
 /**
  * Thank you for applying to Bits of Good. You are free to add/delete/modify any 
  * parts of this project. That includes changing the types.ts, creating css files, 
@@ -16,17 +17,10 @@ import InputForm from './InputForm'
  */
 
 export default function TodoList() {
-  const [ todos, setTodos ] = useState<TodoItem[]>([{ // temporary initialization
-    title: 'Testtitle',
-    dueDate: new Date(),
-    tagList: ['tag1', 'tag2'],
-    completed: false
-  }, {
-    title: 'Testtitle2',
-    dueDate: new Date(),
-    tagList: ['tag1', 'tag2'],
-    completed: false
-  }]);
+  const [ todos, setTodos ] = useState<TodoItem[]>([]);
+  
+  const [ dateSort, setDateSort ] = useState<boolean>(false);
+  const [ completedSort, setCompletedSort ] = useState<boolean>(false);
 
   const handleCheck = (index: number) => {
     const newTodos = [...todos];
@@ -36,8 +30,31 @@ export default function TodoList() {
     setTodos(newTodos);
   };
 
+  const handleDateSort = () => {
+    setDateSort(!dateSort);
+  }
+
+  const handleCompletedSort = () => {
+    setCompletedSort(!completedSort);
+  }
+
   const handleTodoItemAdd = (title: string, dueDate: Date, tagList: string[]) => {
     setTodos(todos.concat([{ title, dueDate, tagList, completed: false }]));
+  }
+
+  var sortFunc;
+  if (dateSort && completedSort) {
+    sortFunc = (first: TodoItem, second: TodoItem) => 
+      (first.completed ? 1 : 0) - (second.completed ? 1 : 0) ||
+          first.dueDate.getTime() - second.dueDate.getTime();
+  } else if (completedSort) {
+    sortFunc =  (first: TodoItem, second: TodoItem) => 
+      (first.completed ? 1 : 0) - (second.completed ? 1 : 0);
+  } else if (dateSort) {
+    sortFunc =  (first: TodoItem, second: TodoItem) => 
+      first.dueDate.getTime() - second.dueDate.getTime();
+  } else {
+    sortFunc =  (first: TodoItem, second: TodoItem) => 0;
   }
 
   return (
@@ -47,8 +64,15 @@ export default function TodoList() {
 
       <InputForm handleTodoItemAdd={handleTodoItemAdd} />
 
-        
-      {todos.map((todo, index) => <TodoCard todo={todo} handleCheck={() => handleCheck(index)} key={index} />)}
+      <br />
+
+      <Button id="dateSort" onClick={handleDateSort} value="test" variant="primary" >Sort by Date</Button>
+      <br />
+      <Button id="completeSort" onClick={handleCompletedSort} value="test" variant="primary">Sort by Completed</Button>
+
+      {[...todos].sort(sortFunc).map((todo, index) => {
+        return <TodoCard todo={todo} handleCheck={() => handleCheck(index)} key={index} />
+      })}
     </div>
   )
 }
