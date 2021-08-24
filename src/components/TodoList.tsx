@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import TodoCard, { TodoItem } from './TodoCard'
 import InputForm from './InputForm'
 import Button from 'react-bootstrap/Button'
+import { Row } from 'react-bootstrap'
 /**
  * Thank you for applying to Bits of Good. You are free to add/delete/modify any 
  * parts of this project. That includes changing the types.ts, creating css files, 
@@ -70,9 +71,15 @@ export default function TodoList() {
       <br />
       <Button id="completeSort" onClick={handleCompletedSort} value="test" variant="primary">Sort by Completed</Button>
 
-      {[...todos].sort(sortFunc).map((todo, index) => {
-        return <TodoCard todo={todo} handleCheck={() => handleCheck(index)} key={index} />
-      })}
+      <br /><br />
+
+      <div style={{display: 'flex', flexDirection: 'column', alignItems:'center', justifyContent:'center'}}>
+        {[...todos].sort(sortFunc).map((todo, index) => {
+          return (
+            <Row><TodoCard todo={todo} handleCheck={() => handleCheck(index)} key={index} /></Row>
+          );
+        })}
+      </div>
     </div>
   )
 }
