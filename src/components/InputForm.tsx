@@ -39,6 +39,11 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
     setInputTag('');
   }
 
+  const handleTagDelete = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    const newTags = tags.filter((_, ind) => ind !== index);
+    setTags(newTags);
+  }
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     
@@ -76,9 +81,9 @@ const InputForm: React.FC<InputFormProps> = ({handleTodoItemAdd}) => {
 
       <br />
 
-      {/* taglist buttons from: https://react-bootstrap.github.io/components/buttons/ */}
+      {/* taglist button styles from: https://react-bootstrap.github.io/components/buttons/ */}
       {tags.map((tag, index) => {
-        return <Button key={index} variant="primary">{tag}</Button>
+        return <Button onClick={(e) => handleTagDelete(e, index)} key={index} variant="primary">{tag}</Button>
       })}
 
       <br />
